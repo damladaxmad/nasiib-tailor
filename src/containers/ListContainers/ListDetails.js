@@ -36,18 +36,29 @@ const ListDetails = (props) => {
           props.back()
         });
     }
+
+    if (
+      props.order?.status == "pending" &&
+      activeUser.privillages?.includes("Finish Order")
+    ) {
+      axios
+        .patch(`${constants.baseUrl}/orders/${props.order?.id}`, {
+          status: "on-service"
+        })
+        .then(() => {
+          alert("Successfully Made order on-service!");
+          props.change();
+          props.back()
+        });
+    }
+
     if (
       props.order?.status == "finished" &&
       activeUser.privillages?.includes("Take Order")
     ) {
       setPaymentForm(true);
     }
-    if (
-      props.order?.status == "pending" &&
-      activeUser.privillages?.includes("Assign Order")
-    ) {
-      setAssign(true);
-    }
+
     // else {
     //   alert("You have no access!")
     // }
@@ -216,9 +227,8 @@ const ListDetails = (props) => {
             Back
           </Button>
 
-          {(props.order?.status != "taken" && props.order?.status != "invoiced" 
-          && props.order?.status != "pending" 
-          && isFinish()) && <Button
+          {(props.order?.status != "taken" && props.order?.status != "invoiced")
+           && <Button
             variant="contained"
             style={{
               color: "white",
@@ -228,8 +238,8 @@ const ListDetails = (props) => {
             }}
             onClick={orderActions}
           >
-            {props.order?.status == "on-service"
-              ? "finish"
+            {props.order?.status == "pending" ? "Work" :
+              props.order?.status == "on-service" ? "finish"
               : "take"}
           </Button>}
           <Button
