@@ -1,0 +1,23 @@
+
+@media all {
+    .page-break {
+      display: none;
+    }
+  }
+  
+  @media print {
+  
+    @page {
+    margin: 4rem;
+    width: 200mm;
+  }
+
+
+    .waryaa button{
+      display: none;
+    }
+   
+  }
+  
+  
+  
